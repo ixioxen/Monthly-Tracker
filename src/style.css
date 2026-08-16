@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+:root{
+    --green-color-primary: #2e7d32;
+    --green-hover-color-primary: #3b713d;
+    --color-text-primary: #212121;
+    --color-text-secondary: #545454;
+
+    /*for background*/
+    --color-background: #FAFAFA;
+    --color-border-icon: #9E9E9E;
+    --color-delete-icon: #E53935;
+    --color-phone-border: #E0E0E0;
+
+
+}
