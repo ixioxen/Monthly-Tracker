@@ -36,7 +36,7 @@
                        <div class="flex justify-between gap-5">
                         <span class="text-lg">{{ data.amount }} MMK</span>
                         <Pencil class="text-(--color-text-secondary)"/>
-                        <Trash2 @click="deleteExpense(ExpenseRealData.id)" class="text-(--color-delete-icon)"/>
+                        <Trash2    @click="openDeleteBox(data.id)" class="text-(--color-delete-icon)"/>
                        </div>
                        
                     </div>
@@ -66,11 +66,20 @@
             @close="closeExpense"
             @expense-added="handleExpense" 
         /> 
+         <!-- Delete Confirmation -->
+        <DeleteBox
+            v-if="showDeleteBox"
+            :expense-id="selectedExpenseId"
+            @close="closeDeleteBox"
+            @delete="deleteExpense"
+        />
     </div>
 </template>
 <script setup>
 import AddExpense from './components/AddExpense.vue'
+import deleteBox from './components/deleteBox.vue';
 import { ref,computed,onMounted } from "vue";
+
     import { 
         House,
         Summary,
@@ -79,6 +88,7 @@ import { ref,computed,onMounted } from "vue";
         Pencil,
         Trash2,
     } from '@lucide/vue';
+import DeleteBox from './components/deleteBox.vue';
 
 const showExpense = ref(false);
     function openExpense(){
@@ -126,9 +136,41 @@ const totalExpenseData = computed(() => {
     },0); 
 });
 
-// delete button 
-function deleteExpense(id){
-    
+
+const showDeleteBox = ref(false);
+
+const selectedExpenseId = ref(null);
+
+
+// Open Delete Box
+function openDeleteBox(id) {
+
+    selectedExpenseId.value = id;
+
+    showDeleteBox.value = true;
+
+}
+
+
+// Close Delete Box
+function closeDeleteBox() {
+
+    showDeleteBox.value = false;
+
+    selectedExpenseId.value = null;
+
+}
+
+
+// Delete Expense
+function deleteExpense(id) {
+
+    ExpenseRealData.value = ExpenseRealData.value.filter(
+        expense => expense.id !== id
+    );
+
+    closeDeleteBox();
+
 }
 
 </script>
